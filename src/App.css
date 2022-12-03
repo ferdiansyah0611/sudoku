@@ -1,0 +1,146 @@
+:root{
+  color-scheme: dark;
+}
+p{
+  margin: 0px;
+}
+
+#root{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.App{
+  max-width: 360px;
+  height: 90vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  background-color: #1d1d1d;
+  border: 1px solid #676767;
+}
+
+.App .info{
+  padding: 10px 10px 0px 10px;
+}
+.App .title{
+  border-bottom: 1px solid #676767;
+  padding: 10px;
+}
+
+.App .body{
+  flex: 1 0 0%;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-gap: 5px;
+  max-height: 55vh;
+  justify-items: center;
+}
+.App .body input{
+  max-width: 15px;
+  max-height: 20px;
+  padding: 5px;
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+.App .body input.right{
+  margin-right: 10px;
+}
+.App .body input.top{
+  margin-top: 10px;
+}
+.App .body input.disable{
+  color: #82ffe5;
+}
+.App .body input.error{
+  color: #ff6363 !important;
+}
+.App .body input.focus{
+  background-color: #000000;
+  color: white;
+  border-style: solid;
+}
+.App .body input:focus{
+  outline: none;
+}
+
+.App .action{
+  flex: 1 0 0%;
+  display: flex;
+  align-items: flex-end;
+  /*padding: 0px 10px 10px 10px;*/
+}
+.App .action div{
+  flex: 1 0 0%;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  grid-gap: 10px;
+  border: 1px solid #676767;
+  /*border-bottom: 0px;*/
+  border-radius: 50px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-width: 0px;
+}
+.App .action button{
+  padding: 8px;
+  font-size: 12px;
+}
+
+.App .choice{
+  display: flex;
+  justify-content: center;
+  grid-gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.App .choice button{
+  padding: 10px;
+  position: relative;
+  font-size: 12px;
+  background-color: darkmagenta;
+  cursor: move;
+}
+.App .choice button:disabled{
+  cursor: not-allowed;
+}
+.App .choice button span:nth-child(1){
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  font-size: 8px;
+}
+.App .choice button.over {
+  border: 3px dotted #666;
+}
+
+.box{
+  border: 1px solid #848484;
+  height: 40px;
+  width: 40px;
+}
+.box.active{
+  background-color: darkblue;
+}
+/*notif*/
+.lose, .win{
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+.lose{
+  background-color: red;
+}
+.win{
+  background-color: blueviolet;
+}
+
+.mistake{
+  font-size: 13px;
+}
