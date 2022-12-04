@@ -12,6 +12,7 @@ function App() {
     solution: [],
   });
   const [mistake, setMistake] = useState(0);
+  const [countHint, setCountHint] = useState(0);
   const [restart, setRestart] = useState(null);
   const [numbering, setNumbering] = useState({});
   const [isFinish, setIsFinish] = useState(false);
@@ -54,12 +55,15 @@ function App() {
     })
     setState({ puzzle, solution });
     setMistake(0);
+    setCountHint(0);
     setNumbering(number);
+    setIsFinish(false);
+    setIsSurrender(false);
     console.log({ puzzle, solution, number });
   }, [restart]);
   const isLose = useMemo(() => {
-    return mistake >= 3;
-  }, [mistake]);
+    return (mistake >= 3 || countHint >= 3);
+  }, [mistake, countHint]);
   // surrender
   const surrender = useCallback(() => {
     let puzzle = state.solution.map((item, i) => {
@@ -76,13 +80,19 @@ function App() {
     setRestart(Date.now());
   }, []);
   const focused = useCallback(
-    (e) => {
+    (e, hintData) => {
       if (e.target.value) {
         box.current.forEach((item, i) => {
           if (item.value === e.target.value) {
             item.classList.add("focus");
+            if (hintData === i) {
+              item.classList.add("hint")
+            }
+            else {
+              item.classList.remove("hint");
+            }
           } else {
-            item.classList.remove("focus");
+            item.classList.remove("focus", "hint");
           }
         });
       }
@@ -91,7 +101,7 @@ function App() {
   );
   // input
   const handle = useCallback(
-    (e, i) => {
+    (e, i, hintData) => {
       let value = parseInt(e.target.value);
       if ((!e.target.value.match(/[1-9]/) && e.target.value !== "") || e.target.value.length >= 2 || mistake >= 3)
         return;
@@ -133,7 +143,7 @@ function App() {
       setTimeout(() => {
         focused({
           target: { value: e.target.value },
-        });
+        }, hintData);
       }, 200)
     },
     [mistake, focused, state]
@@ -146,13 +156,29 @@ function App() {
       });
     }
   }, [isLose, box.current]);
-
+  // hint
+  const hint = useCallback((e) => {
+    if (countHint >= 3) return;
+    let freeBox = []
+    state.puzzle.forEach((item, i) => {
+      if (item.value === null) {
+        freeBox.push(i)
+      }
+    })
+    let rand = Math.floor(Math.random() * freeBox.length),
+      solution = String(state.solution[freeBox[rand]]);
+    console.log({freeBox, rand, solution})
+    handle({
+      target: { value: solution }
+    }, freeBox[rand], freeBox[rand])
+    setCountHint(countHint + 1)
+  }, [state, countHint]);
+  // drag & drop
   function handleDragStart(e) {
     e.target.style.opacity = "0.4";
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("text/html", e.target.querySelector("span:nth-child(2)").innerHTML);
   }
-
   function handleDragEnd(e) {
     e.target.style.opacity = "1";
   }
@@ -201,7 +227,10 @@ function App() {
           </>
           : false
         }
-        <p className={"mistake"}>{mistake}/3 mistake</p>
+        <div className="limit">
+          <p className={"mistake"}>{mistake}/3 mistake</p>
+          <p className={"mistake"} align={"right"}>{countHint}/3 hint</p>
+        </div>
       </section>
       <section className="body">
         {state.puzzle.map((item, i) => (
@@ -247,8 +276,7 @@ function App() {
         <div>
           <button onClick={restartPuzzle}>Restart</button>
           <button onClick={surrender}>Surrender</button>
-          <button>Pencil</button>
-          <button>Hint</button>
+          <button onClick={hint}>Hint</button>
         </div>
       </section>
     </div>

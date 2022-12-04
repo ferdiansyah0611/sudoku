@@ -1,8 +1,21 @@
 :root{
   color-scheme: dark;
+  --sm: 640px;
 }
 p{
   margin: 0px;
+}
+
+/*mobile*/
+@media (max-width: 420px){
+  .App{
+    max-width: 100% !important;
+    height: 100vh !important;
+    border: 0px !important;
+  }
+  .App .choice button{
+    font-size: 10px !important;
+  }
 }
 
 #root{
@@ -24,6 +37,12 @@ p{
 
 .App .info{
   padding: 10px 10px 0px 10px;
+}
+.App .info .limit{
+  display: flex;
+}
+.App .info .limit > *{
+  flex: 1 0 0%;
 }
 .App .title{
   border-bottom: 1px solid #676767;
@@ -60,9 +79,12 @@ p{
   color: #ff6363 !important;
 }
 .App .body input.focus{
-  background-color: #000000;
+  background-color: #0031b5;
   color: white;
   border-style: solid;
+}
+.App .body input.hint{
+  background-color: #03a511;
 }
 .App .body input:focus{
   outline: none;
@@ -72,7 +94,6 @@ p{
   flex: 1 0 0%;
   display: flex;
   align-items: flex-end;
-  /*padding: 0px 10px 10px 10px;*/
 }
 .App .action div{
   flex: 1 0 0%;
@@ -81,7 +102,6 @@ p{
   padding: 5px;
   grid-gap: 10px;
   border: 1px solid #676767;
-  /*border-bottom: 0px;*/
   border-radius: 50px;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
