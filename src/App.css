@@ -19,6 +19,12 @@ p{
   }
 }
 
+@media (max-height: 480px){
+  .App .choice, .App .action{
+    transform: translateY(200px);
+  }
+}
+
 #root{
   display: flex;
   justify-content: center;
@@ -141,6 +147,10 @@ p{
 }
 .App .choice button.over {
   border: 3px dotted #666;
+}
+
+.App .choice, .App .action{
+  transition: 0.5s all ease-in-out;
 }
 
 .box{

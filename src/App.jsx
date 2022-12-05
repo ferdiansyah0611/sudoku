@@ -27,7 +27,7 @@ function App() {
       if (fiterNull.length === 0) {
         setIsFinish(true)
       }
-      if (fiterNull.length === 5) {
+      if (fiterNull.length <= 5) {
         setIsAutoSolved(true)
       }
       console.log({fiterNull})
@@ -172,7 +172,6 @@ function App() {
     })
     let rand = Math.floor(Math.random() * freeBox.length),
       solution = String(state.solution[freeBox[rand]]);
-    // console.log({freeBox, rand, solution})
     handle({
       target: { value: solution }
     }, freeBox[rand], freeBox[rand])
@@ -183,7 +182,7 @@ function App() {
     let fiterNull = state.puzzle.filter((item, i) => {
       return item.value === null
     })
-    if (fiterNull.length <= 5) return;
+    if (fiterNull.length > 5) return;
     let puzzle = state.solution.map((item, i) => {
       return {
         value: item,
@@ -300,7 +299,6 @@ function App() {
           <button onClick={hint}>Hint</button>
         </div>
       </section>
-
       <div className={"faster" + (isAutoSolved ? " open": "")}>
         <button onClick={autoSolve}>Auto Solve</button>
       </div>
