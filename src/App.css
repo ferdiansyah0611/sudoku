@@ -171,7 +171,7 @@ p{
 
 .faster{
   position: absolute;
-  right: -30%;
+  right: -50%;
   bottom: 70px;
   z-index: 100;
   transition: 1s all ease-in-out;

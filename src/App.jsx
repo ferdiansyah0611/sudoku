@@ -17,6 +17,7 @@ function App() {
   const [numbering, setNumbering] = useState({});
   const [isFinish, setIsFinish] = useState(false);
   const [isSurrender, setIsSurrender] = useState(false);
+  const [isAutoSolved, setIsAutoSolved] = useState(false);
   // watch reply
   useEffect(() => {
     if (state.puzzle.length) {
@@ -25,6 +26,9 @@ function App() {
       })
       if (fiterNull.length === 0) {
         setIsFinish(true)
+      }
+      if (fiterNull.length === 5) {
+        setIsAutoSolved(true)
       }
       console.log({fiterNull})
     }
@@ -59,6 +63,7 @@ function App() {
     setNumbering(number);
     setIsFinish(false);
     setIsSurrender(false);
+    setIsAutoSolved(false);
     console.log({ puzzle, solution, number });
   }, [restart]);
   const isLose = useMemo(() => {
@@ -167,12 +172,27 @@ function App() {
     })
     let rand = Math.floor(Math.random() * freeBox.length),
       solution = String(state.solution[freeBox[rand]]);
-    console.log({freeBox, rand, solution})
+    // console.log({freeBox, rand, solution})
     handle({
       target: { value: solution }
     }, freeBox[rand], freeBox[rand])
     setCountHint(countHint + 1)
   }, [state, countHint]);
+  // auto solving
+  const autoSolve = useCallback(() => {
+    let fiterNull = state.puzzle.filter((item, i) => {
+      return item.value === null
+    })
+    if (fiterNull.length <= 5) return;
+    let puzzle = state.solution.map((item, i) => {
+      return {
+        value: item,
+        disabled: false,
+      };
+    });
+    setState({...state, puzzle});
+    setIsFinish(true);
+  }, [state]);
   // drag & drop
   function handleDragStart(e) {
     e.target.style.opacity = "0.4";
@@ -249,6 +269,7 @@ function App() {
               ].join(" ")}
               onDrop={(e) => handleDrop(e, i)}
               onDragOver={onDragOver}
+              inputmode="numeric"
             />
           </div>
         ))}
@@ -279,6 +300,10 @@ function App() {
           <button onClick={hint}>Hint</button>
         </div>
       </section>
+
+      <div className={"faster" + (isAutoSolved ? " open": "")}>
+        <button onClick={autoSolve}>Auto Solve</button>
+      </div>
     </div>
   );
 }
