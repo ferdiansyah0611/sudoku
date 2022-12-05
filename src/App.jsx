@@ -27,12 +27,12 @@ function App() {
       if (fiterNull.length === 0) {
         setIsFinish(true)
       }
-      if (fiterNull.length <= 5) {
+      if (fiterNull.length <= 5 && !isSurrender) {
         setIsAutoSolved(true)
       }
       console.log({fiterNull})
     }
-  }, [state.puzzle]);
+  }, [state.puzzle, isSurrender]);
   // start
   useEffect(() => {
     console.clear();
@@ -88,6 +88,9 @@ function App() {
     (e, hintData) => {
       if (e.target.value) {
         box.current.forEach((item, i) => {
+          if (!item.disabled) {
+            item.classList.remove("disable");
+          }
           if (item.value === e.target.value) {
             item.classList.add("focus");
             if (hintData === i) {
